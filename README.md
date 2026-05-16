@@ -119,5 +119,3 @@ pip install -r requirements.txt
 Este projeto está distribuído sob a **Licença MIT**.
 
 Para mais detalhes sobre permissões, limitações e responsabilidades, consulte o arquivo `LICENSE` presente neste repositório.
-
-

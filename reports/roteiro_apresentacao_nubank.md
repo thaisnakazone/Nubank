@@ -8,6 +8,7 @@
 
 | Bloco | Conteúdo | Tempo |
 |-------|----------|-------|
+
 | 1 | Abertura e contextualização | ~1 min |
 | 2 | Metodologia | ~1,5 min |
 | 3 | Saúde Financeira | ~3 min |
@@ -145,5 +146,3 @@ Ficamos à disposição para perguntas."
 - **Mantenha contato visual** ao falar dos insights principais — eles são o coração do trabalho.
 
 ---
-
-
