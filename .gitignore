@@ -1,1 +1,4 @@
 #por eqnaunto nada, pois quero que todos tenham acesso a tudo, e não quero que nada seja ignorado
+
+# Parar de mostrar os arquivos do ambiente virtual como Untracked
+.venv/
