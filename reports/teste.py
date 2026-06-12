@@ -30,16 +30,22 @@ anos_disponiveis = sorted(df_long["periodo"].dropna().dt.year.unique())
 # --- Criar app ---
 app = Dash(__name__, suppress_callback_exceptions=True)
 
-# Layout principal com roteamento
+# Layout principal com menu de navegação
 app.layout = html.Div([
     dcc.Location(id="url", refresh=False),
+    html.Div([
+        dcc.Link("Reclamações", href="/reclamacoes",
+                 style={"marginRight":"20px","fontWeight":"bold","color":"#8A05BE"}),
+        dcc.Link("Financeiro", href="/financeiro",
+                 style={"fontWeight":"bold","color":"#8A05BE"})
+    ], style={"textAlign":"center","margin":"20px"}),
     html.Div(id="page-content")
 ])
 
 # --- Layout Reclamações ---
 layout_reclamacoes = html.Div([
     html.Div(
-        children=html.H1("Dashboard – Reclamações Nubank",
+        children=html.H1("Dashboar – Reclamações Nubank",
                          style={"textAlign": "center","color":"white","fontWeight":"bold","fontSize":"40px","margin":"0"}),
         style={"backgroundColor":"#8A05BE","padding":"20px"}
     ),
@@ -104,13 +110,13 @@ def update_graphs(categoria):
 
 # --- Callback Financeiro ---
 @app.callback(
-    [Output("grafico-capital","figure"),
-     Output("grafico-comp","figure"),
-     Output("grafico-indices","figure"),
-     Output("grafico-margin","figure"),
-     Output("cards","children")],
-    [Input("ano-dropdown","value"),
-     Input("btn-todos","n_clicks")]
+    [Output("grafico-capital", "figure"),
+     Output("grafico-comp", "figure"),
+     Output("grafico-indices", "figure"),
+     Output("grafico-margin", "figure"),
+     Output("cards", "children")],
+    [Input("ano-dropdown", "value"),
+     Input("btn-todos", "n_clicks")]
 )
 def atualizar_graficos(ano, n_todos):
     ctx = callback_context
@@ -121,39 +127,52 @@ def atualizar_graficos(ano, n_todos):
     # --- Caso especial: 2021 ---
     if ano == 2021 and not todos:
         titulo_extra = "2021"
-        df_capital = df_long[(df_long["descricao"]=="Capital Principal") & (df_long["periodo"].dt.year==2021)] \
+        df_capital = df_long[df_long["descricao"].str.contains("Capital Principal antes dos ajustes", na=False) &
+                             (df_long["periodo"].dt.year == 2021)] \
             .groupby("periodo", as_index=False)["valor"].last()
+
         fig_capital = px.line(df_capital, x="periodo", y="valor", markers=True,
-                              title="Evolução do Capital Principal (2021)", color_discrete_sequence=["#8A05BE"])
+                              title="Evolução do Capital Principal (2021)",
+                              color_discrete_sequence=["#8A05BE"])
+
         cards = []
         if not df_capital.empty:
-            valor_capital = df_capital["valor"].iloc[-1]/1e9
+            valor_capital = df_capital["valor"].iloc[-1] / 1e9
             cards.append(html.Div([
-                html.H3("Capital Principal", style={"color":"#8A05BE","margin":"0"}),
-                html.H1(f"{valor_capital:.0f} B", style={"fontSize":"32px","fontWeight":"bold","margin":"0"})
-            ], style={"backgroundColor":"white","padding":"15px","borderRadius":"10px",
-                      "boxShadow":"0 4px 8px rgba(0,0,0,0.1)","textAlign":"center","width":"200px"}))
-        return fig_capital, go.Figure(), go.Figure(), go.Figure(), html.Div(cards, style={"display":"flex","justifyContent":"center"})
+                html.H3("Capital Principal", style={"color": "#8A05BE", "margin": "0"}),
+                html.H1(f"{valor_capital:.0f} B", style={"fontSize": "32px", "fontWeight": "bold", "margin": "0"})
+            ], style={"backgroundColor": "white", "padding": "15px", "borderRadius": "10px",
+                      "boxShadow": "0 4px 8px rgba(0,0,0,0.1)", "textAlign": "center", "width": "200px"}))
+
+        return fig_capital, go.Figure(), go.Figure(), go.Figure(), html.Div(cards, style={"display": "flex", "justifyContent": "center"})
 
     # --- Lógica normal ---
     if todos:
         titulo_extra = "2021–2025"
-        df_capital = df_long[df_long["descricao"]=="Capital Principal"].groupby("periodo", as_index=False)["valor"].last()
-        df_rwa = df_long[df_long["descricao"]=="RWA total"].groupby("periodo", as_index=False)["valor"].last()
-        df_indices = df_long[df_long["descricao"].isin(["Índice de Capital Principal (ICP)","Índice de Basileia"])] \
+        df_capital = df_long[df_long["descricao"].str.contains("Capital Principal antes dos ajustes", na=False)] \
+            .groupby("periodo", as_index=False)["valor"].last()
+        df_rwa = df_long[df_long["descricao"].str.contains("RWA corresponde", na=False)] \
+            .groupby("periodo", as_index=False)["valor"].last()
+        df_indices = df_long[df_long["descricao"].str.contains("Índice de Capital Principal|Índice de Basileia", na=False)] \
             .groupby(["descricao","periodo"], as_index=False)["valor"].last()
-        df_margin = df_long[df_long["descricao"]=="Margem excedente de Capital Principal (%)"].groupby("periodo", as_index=False)["valor"].last()
+        df_margin = df_long[df_long["descricao"].str.contains("Margem excedente de Capital Principal", na=False)] \
+            .groupby("periodo", as_index=False)["valor"].last()
     else:
         titulo_extra = str(ano)
-        df_capital = df_long[(df_long["descricao"]=="Capital Principal") & (df_long["periodo"].dt.year==ano)] \
+        df_capital = df_long[df_long["descricao"].str.contains("Capital Principal antes dos ajustes", na=False) &
+                             (df_long["periodo"].dt.year == ano)] \
             .groupby("periodo", as_index=False)["valor"].last()
-        df_rwa = df_long[(df_long["descricao"]=="RWA total") & (df_long["periodo"].dt.year==ano)] \
+        df_rwa = df_long[df_long["descricao"].str.contains("RWA corresponde", na=False) &
+                         (df_long["periodo"].dt.year == ano)] \
             .groupby("periodo", as_index=False)["valor"].last()
-        df_indices = df_long[(df_long["descricao"].isin(["Índice de Capital Principal (ICP)","Índice de Basileia"])) & (df_long["periodo"].dt.year==ano)] \
+        df_indices = df_long[df_long["descricao"].str.contains("Índice de Capital Principal|Índice de Basileia", na=False) &
+                             (df_long["periodo"].dt.year == ano)] \
             .groupby(["descricao","periodo"], as_index=False)["valor"].last()
-        df_margin = df_long[(df_long["descricao"]=="Margem excedente de Capital Principal (%)") & (df_long["periodo"].dt.year==ano)] \
+        df_margin = df_long[df_long["descricao"].str.contains("Margem excedente de Capital Principal", na=False) &
+                            (df_long["periodo"].dt.year == ano)] \
             .groupby("periodo", as_index=False)["valor"].last()
 
+    # Gráficos
     fig_capital = px.line(df_capital, x="periodo", y="valor", markers=True,
                           title=f"Evolução do Capital Principal ({titulo_extra})",
                           color_discrete_sequence=["#8A05BE"])
@@ -178,7 +197,7 @@ def atualizar_graficos(ano, n_todos):
                          title=f"Margem Excedente de Capital Principal (%) ({titulo_extra})",
                          color_discrete_sequence=["#32CD32"]) if not df_margin.empty else go.Figure()
 
-    # Cards normais (3)
+    # Cards
     cards = []
     if not df_capital.empty:
         valor_capital = df_capital["valor"].iloc[-1] / 1e9
@@ -198,7 +217,7 @@ def atualizar_graficos(ano, n_todos):
 
     if not df_indices.empty:
         ultimo_periodo = df_indices["periodo"].max()
-        valor_bas = df_indices[(df_indices["descricao"]=="Índice de Basileia") &
+        valor_bas = df_indices[df_indices["descricao"].str.contains("Índice de Basileia", na=False) &
                                (df_indices["periodo"]==ultimo_periodo)]["valor"].values[0]
         cards.append(html.Div([
             html.H3("Índice de Basileia", style={"color": "#FFD700", "margin": "0"}),
@@ -208,6 +227,18 @@ def atualizar_graficos(ano, n_todos):
 
     return fig_capital, fig_comp, fig_indices, fig_margin, cards
 
+
+# Roteamento entre páginas
+@app.callback(Output("page-content", "children"), Input("url", "pathname"))
+def display_page(pathname):
+    if pathname == "/reclamacoes":
+        return layout_reclamacoes
+    elif pathname == "/financeiro":
+        return layout_financeiro
+    else:
+        return html.Div("Página não encontrada")
+
+# Rodar no navegador
 if __name__ == "__main__":
     port = 8050
     if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
