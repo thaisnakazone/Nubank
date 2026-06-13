@@ -1,121 +1,131 @@
-<h2 align="center"> 🟣 Nubank: Avaliação de Negócios e Análise Preditiva 🟣 </h2>
+<h2 align="center">🟣 Nubank: Avaliação de Negócios e Análise Preditiva 🟣</h2>
 
-![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
-![License](https://img.shields.io/badge/License-MIT-blue)
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Concluído-brightgreen"/>
+  <img src="https://img.shields.io/badge/License-MIT-blue"/>
+  <img src="https://img.shields.io/badge/Python-3.10+-blue"/>
+  <img src="https://img.shields.io/badge/Jupyter-Notebook-orange"/>
+</p>
+
+---
 
 ## 📌 Sobre o Projeto
 
-Este repositório documenta uma análise avançada focada no ecossistema do Nubank. O objetivo principal é extrair e identificar problemas e oportunidades de negócio a partir de fontes de dados públicos (dados macroeconômicos, balanços financeiros, sentimento do consumidor, etc.).
+Este projeto realiza uma análise completa do ecossistema financeiro do Nubank, combinando **dados regulatórios do Banco Central do Brasil** (Circular BCB 3.930 — Pilar 3) com **dados de sentimento do consumidor** extraídos do Reclame Aqui via web scraping.
 
-Através de análises preditivas e modelagem, o projeto busca avaliar a saúde financeira e o direcionamento estratégico da empresa, culminando em uma apresentação gerencial com foco em tomadas de decisão.
+O objetivo foi identificar riscos, oportunidades e padrões estratégicos na operação do Nubank, culminando em dashboards interativos e uma apresentação gerencial com foco em tomada de decisão.
+
+---
+
+## 🔍 Metodologia & Análises Realizadas
+
+### 📊 Análise Regulatória (Pilar 3 — BCB 3.930)
+- Extração e preprocessamento de 8 trimestres de dados regulatórios (arquivos KM1, OV1, CR1, CR2, MR1)
+- Análise de tendência do **Índice de Basileia**
+- Monitoramento do crescimento de **RWA (Risk-Weighted Assets)** e spike de **RWA Cambial**
+- Construção de pipeline estruturado em Python/Pandas/OpenPyXL com output em Excel multi-abas
+
+### 🗣️ Análise de Reclamações (Reclame Aqui)
+- Web scraping automatizado de reclamações do Nubank
+- **Clusterização K-Means** para segmentação de perfis de reclamação
+- **Regressão linear** sobre complexidade textual das reclamações
+- Geração de insights sobre categorias e sazonalidade de reclamações
+
+### 📈 Dashboards & Visualizações
+- Dashboard financeiro com indicadores regulatórios e de capital
+- Dashboard de reclamações com análise de clusters e tendências
+- Relatório executivo consolidado
 
 ---
 
 ## 🗺️ Guia Visual do Repositório
 
-![Guia do Repositório](<assets/guia o que cada pasta faz.png>)
-
-## 📂 Estrutura do Repositório
-
-A arquitetura foi desenhada para garantir a reprodutibilidade da análise, separando dados brutos da experimentação e do código final:
-
-```text
-├── data/
-│   ├── processed/          # Dados limpos e tratados para modelagem
-│   └── raw/                # Dados originais e extrações (imutáveis)
-├── notebooks/              # Explorações e testes de hipóteses (.ipynb)
-├── reports/                # Apresentação final e dashboards exportados
-├── src/                    # Scripts em Python consolidados
-│   ├── data_collection.py  # Automações e web scraping (ex: Reclame Aqui)
-│   ├── feature_engineering.py
-│   ├── modeling.py         # Algoritmos de regressão e forecast
-│   └── visualization.py    # Geração de gráficos para a apresentação
-├── .gitignore              
-├── README.md               
-└── requirements.txt        # Bibliotecas necessárias (pandas, scikit-learn, etc.)
-```
-
-## 👥 Equipe & Divisão de Responsabilidades  
-
-O pipeline de dados foi estruturado estrategicamente para cobrir **toda a esteira do projeto**, desde a coleta até a geração de insights estratégicos:
-
-### 🔹 Pessoa 1 — Data Engineer  
-
-- Coleta de dados (balanço patrimonial + dados macroeconômicos)  
-- Limpeza e tratamento inicial  
-- Organização estrutural dos arquivos na pasta `/data`  
-
-### 🔹 Pessoa 2 — Feature Engineer  
-
-- Criação de métricas financeiras  
-- Transformações e normalizações  
-- Desenvolvimento de variáveis derivadas para enriquecer as análises  
-
-### 🔹 Pessoa 3 — Modelagem  
-
-- Desenvolvimento de modelos preditivos (Regressão e Forecast)  
-- Construção de cenários  
-- Simulações e análises estatísticas  
-
-### 🔹 Pessoa 4 — Visualização & Business Insights  
-
-- Construção de dashboards  
-- Análise estratégica do negócio  
-- Elaboração do relatório e apresentação final  
+![Guia do Repositório](assets/guia%20o%20que%20cada%20pasta%20faz.png)
 
 ---
 
-## 👤 Integrantes  
+## 📂 Estrutura do Repositório
 
-- **Thiago Teles**  
-- **Paulo Futagawa**  
-- **Thaís Nakazone**  
-- **Felipe Tavares**  
+```text
+├── data/
+│   ├── processed/               # Dados limpos e tratados para modelagem
+│   └── raw/                     # Dados originais (imutáveis) — Pilar 3 BCB
+├── notebooks/
+│   ├── nubank.ipynb             # Análise principal — Pilar 3 & Reclame Aqui
+│   ├── analises.ipynb           # Análises complementares
+│   └── dashboard.ipynb          # Notebook de geração de dashboards
+├── reports/
+│   ├── dashboard.py             # Dashboard principal
+│   ├── dashboard_financeiro.py  # Indicadores financeiros e regulatórios
+│   └── dashboard_reclamacoes.py # Análise de reclamações e clusters
+├── src/
+│   ├── load_api_to_sqlite.py    # Ingestão via API para SQLite
+│   ├── load_csv_to_sqlite.py    # Ingestão de CSVs para SQLite
+│   └── load_xlsx_to_sqlite.py   # Ingestão de Excel para SQLite
+├── assets/                      # Imagens e recursos visuais
+├── .gitignore
+├── README.md
+└── requirements.txt
+```
 
-## 🔄 Fluxo de Trabalho (Code Review)
+---
 
-Nenhum código vai direto para a branch principal.
+## 👥 Equipe & Contribuições
 
-Fluxo padrão:
+| Integrante | Papel | Responsabilidades |
+|---|---|---|
+| **Thiago Teles** | Data Engineer | Coleta de dados regulatórios (BCB/Pilar 3), pipeline de preprocessamento, estrutura do repositório |
+| **Paulo Futagawa** | Feature Engineer | Criação de métricas financeiras, transformações, variáveis derivadas |
+| **Thaís Nakazone** | Modelagem | Modelos preditivos (K-Means, Regressão), simulações e análises estatísticas |
+| **Felipe Tavares** | Visualização & BI | Construção de dashboards, análise estratégica, relatório executivo |
 
-- Criar uma **branch** para sua tarefa
-- Abrir um **Pull Request (PR)**  
-- Passar por **Code Review** de pelo menos um integrante antes do merge  
-
-Esse processo garante organização, qualidade e colaboração no projeto.
+---
 
 ## ⚙️ Como Reproduzir o Ambiente
 
-Siga os passos abaixo para configurar o projeto localmente:
-
-### 📥 1. Clone o repositório
-
+### 1. Clone o repositório
 ```bash
 git clone https://github.com/telesvfx/nubank.git
 cd nubank
 ```
 
-## 🐍 2. Crie e ative o ambiente virtual
-
+### 2. Crie e ative o ambiente virtual
 ```bash
 python -m venv .venv
-```
 
-## Ativação no Windows
-
-```bash
+# Windows
 .venv\Scripts\activate
+
+# Linux/Mac
+source .venv/bin/activate
 ```
 
-## 📦 3. Instale as dependências
-
+### 3. Instale as dependências
 ```bash
 pip install -r requirements.txt
 ```
 
+### 4. Execute os notebooks
+Abra o Jupyter e rode os notebooks na seguinte ordem:
+1. `notebooks/nubank.ipynb` — análise principal
+2. `notebooks/analises.ipynb` — análises complementares
+3. `notebooks/dashboard.ipynb` — geração dos dashboards
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Python 3.10+** — linguagem principal
+- **Pandas / NumPy** — manipulação e processamento de dados
+- **Scikit-Learn** — K-Means e regressão linear
+- **Matplotlib / Seaborn / Plotly** — visualizações
+- **OpenPyXL** — leitura e escrita de Excel regulatório
+- **SQLite** — armazenamento intermediário
+- **Jupyter Notebook** — exploração e apresentação
+- **Git / GitHub** — versionamento com fluxo de branches e PRs
+
+---
+
 ## 📄 Licença
 
-Este projeto está distribuído sob a **Licença MIT**.
-
-Para mais detalhes sobre permissões, limitações e responsabilidades, consulte o arquivo `LICENSE` presente neste repositório.
+Este projeto está distribuído sob a **Licença MIT**. Consulte o arquivo `LICENSE` para mais detalhes.
