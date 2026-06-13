@@ -167,10 +167,12 @@ def atualizar_graficos(ano, n_todos):
                               title=f"Índice de Capital Principal vs Índice de Basileia ({titulo_extra})",
                               color_discrete_map={"Índice de Capital Principal (ICP)": "#8A05BE",
                                                   "Índice de Basileia": "#FFD700"})
+        fig_indices.update_yaxes(tickformat=".0%")
 
     fig_margin = px.line(df_margin, x="periodo", y="valor", markers=True,
-                         title=f"Margem Excedente de Capital Principal (%) ({titulo_extra})",
+                         title=f"Margem Excedente de Capital Principal ({titulo_extra})",
                          color_discrete_sequence=["#32CD32"]) if not df_margin.empty else go.Figure()
+    fig_margin.update_yaxes(tickformat=".0%")
 
     # Cards normais (3)
     cards = []

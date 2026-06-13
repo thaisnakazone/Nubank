@@ -2,13 +2,23 @@ import os
 import pandas as pd
 import sqlite3
 
-def load_csvs_to_sqlite(db_path="../data/nubank.db", processed_path="../data/processed"):
+def load_csvs_to_sqlite():
+    # Caminho robusto baseado na localização do arquivo
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(BASE_DIR, "..", "data", "nubank.db")
+    processed_path = os.path.join(BASE_DIR, "..", "data", "processed")
+
     # Garantir que a pasta data existe
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
 
     # Criar/abrir banco
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
+
+    if not os.path.exists(processed_path) or not os.listdir(processed_path):
+        print(f"Nenhum CSV encontrado em {processed_path}")
+        conn.close()
+        return []
 
     # Ler CSVs e salvar como tabelas
     for file in os.listdir(processed_path):
@@ -25,3 +35,7 @@ def load_csvs_to_sqlite(db_path="../data/nubank.db", processed_path="../data/pro
 
     conn.close()
     return tables
+
+if __name__ == "__main__":
+    tabelas = load_csvs_to_sqlite()
+    print("Tabelas carregadas:", tabelas)

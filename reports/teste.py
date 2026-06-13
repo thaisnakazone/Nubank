@@ -240,7 +240,7 @@ def display_page(pathname):
 
 # Rodar no navegador
 if __name__ == "__main__":
-    port = 8050
+    port = 8051
     if os.environ.get("WERKZEUG_RUN_MAIN") != "true":
         webbrowser.open(f"http://127.0.0.1:{port}/reclamacoes")
     app.run(debug=True, use_reloader=True, port=port)
