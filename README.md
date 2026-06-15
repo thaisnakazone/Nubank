@@ -77,10 +77,10 @@ Abaixo uma prévia do resultado final, com os **cards de indicadores**, botão d
 
 ## 👥 Equipe
 
-**Felipe Tavares**
-**Paulo Futagawa**
-**Thaís Nakazone**
-**Thiago Teles**
+**Felipe Tavares**   
+**Paulo Futagawa**   
+**Thaís Nakazone**   
+**Thiago Teles**   
 
 ---
 
