@@ -38,11 +38,17 @@ O objetivo foi identificar riscos, oportunidades e padrões estratégicos na ope
 
 ---
 
-## 🗺️ Guia Visual do Repositório
+## 📊 Visualização do Dashboard
 
-![Guia do Repositório](assets/guia%20o%20que%20cada%20pasta%20faz.png)
+Abaixo uma prévia do resultado final, com os **cards de indicadores**, botão da **Selic** e gráficos interativos:
+
+![Dashboard](assets/dashboard_preview.png)
 
 ---
+
+## 🗺️ Guia Visual do Repositório
+
+![Guia do Repositório](<assets/guia o que cada pasta faz.png>)
 
 ## 📂 Estrutura do Repositório
 
@@ -55,7 +61,6 @@ O objetivo foi identificar riscos, oportunidades e padrões estratégicos na ope
 │   ├── analises.ipynb           # Análises complementares
 │   └── dashboard.ipynb          # Notebook de geração de dashboards
 ├── reports/
-│   ├── dashboard.py             # Dashboard principal
 │   ├── dashboard_financeiro.py  # Indicadores financeiros e regulatórios
 │   └── dashboard_reclamacoes.py # Análise de reclamações e clusters
 ├── src/
@@ -70,26 +75,27 @@ O objetivo foi identificar riscos, oportunidades e padrões estratégicos na ope
 
 ---
 
-## 👥 Equipe & Contribuições
+## 👥 Equipe
 
-| Integrante | Papel | Responsabilidades |
-|---|---|---|
-| **Thiago Teles** | Data Engineer | Coleta de dados regulatórios (BCB/Pilar 3), pipeline de preprocessamento, estrutura do repositório |
-| **Paulo Futagawa** | Feature Engineer | Criação de métricas financeiras, transformações, variáveis derivadas |
-| **Thaís Nakazone** | Modelagem | Modelos preditivos (K-Means, Regressão), simulações e análises estatísticas |
-| **Felipe Tavares** | Visualização & BI | Construção de dashboards, análise estratégica, relatório executivo |
+**Felipe Tavares**
+**Paulo Futagawa**
+**Thaís Nakazone**
+**Thiago Teles**
 
 ---
 
 ## ⚙️ Como Reproduzir o Ambiente
 
+Siga os passos abaixo para configurar o projeto localmente:
+
 ### 1. Clone o repositório
 ```bash
-git clone https://github.com/telesvfx/nubank.git
-cd nubank
+git clone https://github.com/thaisnakazone/Nubank.git
+cd Nubank
 ```
 
-### 2. Crie e ative o ambiente virtual
+## 🐍 2. Crie e ative o ambiente virtual
+
 ```bash
 python -m venv .venv
 
@@ -100,16 +106,18 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Instale as dependências
+## 📦 3. Instale as dependências
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Execute os notebooks
-Abra o Jupyter e rode os notebooks na seguinte ordem:
-1. `notebooks/nubank.ipynb` — análise principal
-2. `notebooks/analises.ipynb` — análises complementares
-3. `notebooks/dashboard.ipynb` — geração dos dashboards
+### 4. Execute os notebooks ou scripts Python
+
+1. `notebooks/nubank.ipynb`
+2. `notebooks/dashboard.ipynb`
+3. `reports/dashboard_financeiro.py`
+4. `reports/dashboard_reclamacoes.py`
 
 ---
 
