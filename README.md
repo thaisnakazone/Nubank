@@ -94,8 +94,7 @@ git clone https://github.com/thaisnakazone/Nubank.git
 cd Nubank
 ```
 
-## 🐍 2. Crie e ative o ambiente virtual
-
+## 2. Crie e ative o ambiente virtual
 ```bash
 python -m venv .venv
 
@@ -107,7 +106,6 @@ source .venv/bin/activate
 ```
 
 ## 📦 3. Instale as dependências
-
 ```bash
 pip install -r requirements.txt
 ```
